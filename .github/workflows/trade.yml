@@ -1,7 +1,7 @@
 name: trade
 on:
   schedule:
-    - cron: "*/5 13-21 * * 1-5"   # every 5 min, weekdays, covers US market hours
+    - cron: "2-59/5 13-21 * * 1-5"   # every 5 min (at :02, :07, ...), weekdays, covers US market hours
   workflow_dispatch:               # lets you press "Run workflow" manually
 permissions:
   contents: write
