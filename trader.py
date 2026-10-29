@@ -1,17 +1,31 @@
-"""Paper options day trader. Run every 5 min during market hours (GitHub Actions does this).
+"""Paper options day trader with 3 risk profiles (base / risky / extreme), all run in one go.
 Real stock/ETF quotes (Yahoo Finance via yfinance, free, ~15 min delayed).
 Option premiums are MODELED with Black-Scholes, not real option quotes.
-Account stays frozen at its last value whenever the market is closed."""
+Each account stays frozen whenever the market is closed."""
 import json, math, os, datetime as dt
 from zoneinfo import ZoneInfo
 import yfinance as yf
 
 ET = ZoneInfo("America/New_York")
 START, FEE, RATE = 100_000.0, 0.65, 0.045
-IV = {"SPY": .16, "QQQ": .21, "GLD": .15, "USO": .35}   # modeled volatility per ticker
-STATE, REPORT = "state.json", "STATUS.md"
-MAX_QUOTE_AGE_MIN = 30   # quote must be this fresh to count as "market live"
+MAX_QUOTE_AGE_MIN = 30
+MAX_QTY, MIN_PREMIUM = 100, 0.30   # realism: cap contracts per trade, skip penny options
+IV = {"SPY": .16, "QQQ": .21, "GLD": .15, "USO": .35, "NVDA": .50, "TSLA": .55, "AMD": .55}  # modeled volatility
+CORE = ["SPY", "QQQ", "GLD", "USO"]
 
+# ---- EDIT THESE to change how risky each account is -------------------------------------------
+# thr = % move from today's open needed to enter | risk = share of account per trade
+# otm = strikes out-of-the-money (cheaper, riskier) | tp/sl = take-profit / stop-loss on the option
+# same_day = may buy contracts expiring today | flatten = sell everything by 15:45 ET (no overnight)
+PROFILES = {
+    "base":    dict(file="state.json",         report="STATUS.md",         universe=CORE,
+                    thr=.0015, risk=.05, maxpos=4, otm=0, tp=.30, sl=-.20, same_day=False, flatten=True),
+    "risky":   dict(file="state_risky.json",   report="STATUS_risky.md",   universe=CORE + ["NVDA", "TSLA"],
+                    thr=.0010, risk=.15, maxpos=4, otm=1, tp=.60, sl=-.35, same_day=True,  flatten=True),
+    "extreme": dict(file="state_extreme.json", report="STATUS_extreme.md", universe=CORE + ["NVDA", "TSLA", "AMD"],
+                    thr=.0005, risk=.40, maxpos=3, otm=2, tp=1.50, sl=-.60, same_day=True, flatten=False),
+}
+# -----------------------------------------------------------------------------------------------
 
 def ncdf(x): return 0.5 * (1 + math.erf(x / math.sqrt(2)))
 
@@ -23,47 +37,39 @@ def bs(kind, s, k, t, sg):
 
 def tyears(exp, now): return max((exp - now) / 31_536_000, 1e-6)
 
-def fridays(now_et, n=4):
-    out, i = [], 1
-    while len(out) < n:
+def next_friday(now_et, include_today):
+    i = 0 if include_today else 1
+    while True:
         d = (now_et + dt.timedelta(days=i)).date()
         if d.weekday() == 4:
-            out.append(dt.datetime(d.year, d.month, d.day, 16, 0, tzinfo=ET).timestamp())
+            return dt.datetime(d.year, d.month, d.day, 16, 0, tzinfo=ET).timestamp()
         i += 1
-    return out
 
 def fresh():
     return dict(cash=START, eq=START, pos=[], log=[], curve=[[0, START]], last={}, h={}, h_date="",
                 id=1, wins=0, losses=0, real=0.0, day_start={"d": "", "eq": START}, bot=True)
 
 def get_quote(sym, now_et):
-    """Return dict(p,o,pc) if there is a fresh quote from today's session, else None."""
     t = yf.Ticker(sym)
     intra = t.history(period="1d", interval="1m")
-    if intra.empty: return None
+    if intra.empty:
+        print(sym, "no intraday data returned (Yahoo may be blocking or market closed)"); return None
     last_ts = intra.index[-1].to_pydatetime().astimezone(ET)
     if last_ts.date() != now_et.date() or (now_et - last_ts).total_seconds() > MAX_QUOTE_AGE_MIN * 60:
-        return None
+        print(sym, "quote not fresh: last bar", last_ts.strftime("%m-%d %H:%M"), "ET"); return None
     daily = t.history(period="7d", interval="1d")
     prev = [r for d, r in daily["Close"].items() if d.date() < now_et.date()]
-    if not prev: return None
+    if not prev:
+        print(sym, "no previous close found"); return None
     return dict(p=float(intra["Close"].iloc[-1]), o=float(intra["Open"].iloc[0]), pc=float(prev[-1]))
 
-def main():
-    now = dt.datetime.now(ET); now_ts = now.timestamp()
-    S = json.load(open(STATE)) if os.path.exists(STATE) else fresh()
-    quotes = {}
-    for s in IV:
-        try:
-            q = get_quote(s, now)
-            if q: quotes[s] = q
-        except Exception as e:
-            print("quote error", s, e)
+def run_profile(name, cfg, allq, now):
+    now_ts = now.timestamp(); today = str(now.date()); mins = now.hour * 60 + now.minute
+    S = json.load(open(cfg["file"])) if os.path.exists(cfg["file"]) else fresh()
+    quotes = {s: q for s, q in allq.items() if s in cfg["universe"]}
     if not quotes:
-        print("Market not live (no fresh quotes). Account frozen at", round(S["eq"], 2))
-        if not os.path.exists(STATE): save(S, now)
+        if not os.path.exists(cfg["file"]): save(name, cfg, S, now)
         return
-    today = str(now.date())
     if S["h_date"] != today: S["h"], S["h_date"] = {}, today
     if S["day_start"]["d"] != today: S["day_start"] = {"d": today, "eq": S["eq"]}
     for s, q in quotes.items():
@@ -84,49 +90,49 @@ def main():
         q = quotes.get(s)
         if not q: return 0
         h = S["h"].get(s, []); mo = (q["p"] - q["o"]) / q["o"]; sl = h[-1] - h[-4] if len(h) >= 4 else 0
-        if mo > .0015 and q["p"] > q["pc"] and sl >= 0: return 1
-        if mo < -.0015 and q["p"] < q["pc"] and sl <= 0: return -1
+        if mo > cfg["thr"] and q["p"] > q["pc"] and sl >= 0: return 1
+        if mo < -cfg["thr"] and q["p"] < q["pc"] and sl <= 0: return -1
         return 0
 
-    for p in list(S["pos"]):                      # settle expired contracts
+    for p in list(S["pos"]):
         if now_ts >= p["exp"]: close(p, settle=True)
 
-    mins = now.hour * 60 + now.minute
     if S["bot"]:
         for p in list(S["pos"]):
-            if p.get("src") != "bot": continue
             r = mid(p) / p["e"] - 1; g = sig(p["sym"])
-            if mins >= 945: close(p, "(end of day)")
-            elif r >= .30: close(p, "(take profit)")
-            elif r <= -.20: close(p, "(stop loss)")
+            if cfg["flatten"] and mins >= 945: close(p, "(end of day)")
+            elif r >= cfg["tp"]: close(p, "(take profit)")
+            elif r <= cfg["sl"]: close(p, "(stop loss)")
             elif (p["t"] == "C" and g == -1) or (p["t"] == "P" and g == 1): close(p, "(signal flip)")
-        nbot = sum(1 for p in S["pos"] if p.get("src") == "bot")
-        if 585 <= mins < 945 and nbot < 4:
-            eq = equity(); exp = fridays(now)[0]
-            for s in IV:
-                if nbot >= 4 or any(p["sym"] == s and p.get("src") == "bot" for p in S["pos"]): continue
+        if 585 <= mins < 945:
+            exp = next_friday(now, cfg["same_day"] and mins < 930)
+            for s in cfg["universe"]:
+                if len(S["pos"]) >= cfg["maxpos"]: break
+                if s not in quotes or any(p["sym"] == s for p in S["pos"]): continue
                 g = sig(s)
-                if not g or s not in quotes: continue
+                if not g: continue
                 sp = quotes[s]["p"]; st = 1 if sp < 100 else 2.5 if sp < 300 else 5
-                K = round(sp / st) * st; kind = "C" if g > 0 else "P"
+                K = round(sp / st) * st + (cfg["otm"] * st if g > 0 else -cfg["otm"] * st); kind = "C" if g > 0 else "P"
                 ask = max(.01, bs(kind, sp, K, tyears(exp, now_ts), IV[s]) * 1.01)
-                qty = max(1, int(eq * .05 // (ask * 100)))
-                cost = ask * 100 * qty + FEE * qty
-                if cost > S["cash"]: continue
-                S["cash"] -= cost; nbot += 1
+                if ask < MIN_PREMIUM: continue
+                qty = min(MAX_QTY, int(equity() * cfg["risk"] // (ask * 100)))
+                if qty < 1 or ask * 100 * qty + FEE * qty > S["cash"]: continue
+                S["cash"] -= ask * 100 * qty + FEE * qty
                 S["pos"].append(dict(id=S["id"], sym=s, t=kind, K=K, exp=exp, q=qty, e=ask, src="bot")); S["id"] += 1
-                log(f"🤖 BUY {qty} {s} {K}{kind} exp {dt.datetime.fromtimestamp(exp, ET):%m-%d} @ {ask:.2f}")
+                log(f"BUY {qty} {s} {K}{kind} exp {dt.datetime.fromtimestamp(exp, ET):%m-%d} @ {ask:.2f}")
 
     S["eq"] = equity(); S["curve"].append([int(now_ts), round(S["eq"], 2)]); S["curve"] = S["curve"][-1500:]
-    save(S, now, mid)
+    save(name, cfg, S, now, mid)
 
-def save(S, now, mid=None):
-    json.dump(S, open(STATE, "w"), indent=1)
+def save(name, cfg, S, now, mid=None):
+    json.dump(S, open(cfg["file"], "w"), indent=1)
     pl = S["eq"] - START; day = S["eq"] - S["day_start"]["eq"]; n = S["wins"] + S["losses"]
-    L = ["# Paper Options Trader", "",
+    L = [f"# Paper Options Trader: {name.upper()} profile", "",
          f"**Account value: ${S['eq']:,.2f}**  |  Total P/L: ${pl:+,.2f} ({pl / START * 100:+.2f}%)  |  Today: ${day:+,.2f}", "",
-         f"Cash ${S['cash']:,.2f} · Realized ${S['real']:+,.2f} · Closed trades {n}" + (f" · Win rate {S['wins'] / n * 100:.0f}%" if n else ""),
+         f"Cash ${S['cash']:,.2f} | Realized ${S['real']:+,.2f} | Closed trades {n}" + (f" | Win rate {S['wins'] / n * 100:.0f}%" if n else ""),
          f"Last update: {now:%Y-%m-%d %H:%M} ET. The account only changes while the US market is open.", "",
+         f"Tickers: {', '.join(cfg['universe'])}. Risk per trade {cfg['risk'] * 100:.0f}%, {cfg['otm']} strikes OTM, "
+         f"{'0DTE allowed' if cfg['same_day'] else 'no 0DTE'}, {'closes by 15:45 ET' if cfg['flatten'] else 'can hold overnight'}.", "",
          "_Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._", "", "## Open positions", ""]
     if S["pos"] and mid:
         L += ["| Contract | Qty | Entry | Mark | P/L |", "|---|---|---|---|---|"]
@@ -134,7 +140,19 @@ def save(S, now, mid=None):
             m = mid(p); L.append(f"| {p['sym']} {p['K']}{p['t']} exp {dt.datetime.fromtimestamp(p['exp'], ET):%m-%d} | {p['q']} | {p['e']:.2f} | {m:.2f} | ${(m - p['e']) * 100 * p['q']:+,.2f} |")
     else: L.append("None")
     L += ["", "## Recent trades", ""] + [f"- {t} {m}" + (f" (**${pl:+,.2f}**)" if pl is not None else "") for t, m, pl in S["log"][:20]]
-    open(REPORT, "w").write(("\n".join(L) + "\n").replace("$", "\\$"))
+    open(cfg["report"], "w").write(("\n".join(L) + "\n").replace("$", "\\$"))
+
+def main():
+    now = dt.datetime.now(ET)
+    allq = {}
+    for s in sorted({s for c in PROFILES.values() for s in c["universe"]}):
+        try:
+            q = get_quote(s, now)
+            if q: allq[s] = q
+        except Exception as e:
+            print("quote error", s, e)
+    if not allq: print("Market not live (no fresh quotes). Accounts frozen.")
+    for name, cfg in PROFILES.items(): run_profile(name, cfg, allq, now)
 
 if __name__ == "__main__":
     main()
