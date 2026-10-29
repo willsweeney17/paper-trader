@@ -140,7 +140,7 @@ def save(name, cfg, S, now, mid=None):
             m = mid(p); L.append(f"| {p['sym']} {p['K']}{p['t']} exp {dt.datetime.fromtimestamp(p['exp'], ET):%m-%d} | {p['q']} | {p['e']:.2f} | {m:.2f} | ${(m - p['e']) * 100 * p['q']:+,.2f} |")
     else: L.append("None")
     L += ["", "## Recent trades", ""] + [f"- {t} {m}" + (f" (**${pl:+,.2f}**)" if pl is not None else "") for t, m, pl in S["log"][:20]]
-    open(cfg["report"], "w").write(("\n".join(L) + "\n").replace("$", "\\$"))
+    open(cfg["report"], "w").write(("\n".join(L) + "\n").replace("$", "&#36;"))
 
 def main():
     now = dt.datetime.now(ET)
