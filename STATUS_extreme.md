@@ -1,9 +1,9 @@
 # Paper Options Trader: EXTREME profile
 
-**Account value: &#36;766,261.38**  |  Total P/L: &#36;+666,261.38 (+666.26%)  |  Today: &#36;-794.10
+**Account value: &#36;839,598.89**  |  Total P/L: &#36;+739,598.89 (+739.60%)  |  Today: &#36;+73,337.52
 
-Cash &#36;706,351.73 | Realized &#36;+667,055.47 | Closed trades 3 | Win rate 100%
-Last update: 2026-11-03 15:02 ET. The account only changes while the US market is open.
+Cash &#36;746,960.25 | Realized &#36;+704,221.13 | Closed trades 5 | Win rate 80%
+Last update: 2026-11-04 15:22 ET. The account only changes while the US market is open.
 
 Tickers: SPY, QQQ, GLD, USO, NVDA, TSLA, AMD. Risk per trade 40%, 2 strikes OTM, 0DTE allowed, can hold overnight.
 
@@ -13,12 +13,16 @@ _Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._
 
 | Contract | Qty | Entry | Mark | P/L |
 |---|---|---|---|---|
-| SPY 765C exp 11-06 | 100 | 1.00 | 0.99 | &#36;-98.80 |
-| USO 162.5C exp 11-06 | 100 | 0.58 | 0.58 | &#36;-57.75 |
-| TSLA 390P exp 11-06 | 100 | 4.47 | 4.43 | &#36;-442.55 |
+| TSLA 390P exp 11-06 | 100 | 4.47 | 8.04 | &#36;+35,695.22 |
+| SPY 780C exp 11-06 | 100 | 0.43 | 0.43 | &#36;-42.54 |
+| QQQ 705C exp 11-06 | 100 | 0.81 | 0.80 | &#36;-79.92 |
 
 ## Recent trades
 
+- 11-04 15:22 BUY 100 QQQ 705C exp 11-06 @ 0.81
+- 11-04 15:22 BUY 100 SPY 780C exp 11-06 @ 0.43
+- 11-04 15:22 SELL 100 USO 162.5C @ 0.00 (stop loss) (**&#36;-5,962.36**)
+- 11-04 15:22 SELL 100 SPY 765C @ 5.32 (take profit) (**&#36;+43,128.02**)
 - 11-03 15:02 BUY 100 TSLA 390P exp 11-06 @ 4.47
 - 11-03 15:02 BUY 100 USO 162.5C exp 11-06 @ 0.58
 - 11-03 15:02 BUY 100 SPY 765C exp 11-06 @ 1.00
