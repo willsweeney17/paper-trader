@@ -1,9 +1,9 @@
 # Paper Options Trader: EXTREME profile
 
-**Account value: &#36;839,598.89**  |  Total P/L: &#36;+739,598.89 (+739.60%)  |  Today: &#36;+73,337.52
+**Account value: &#36;1,207,399.73**  |  Total P/L: &#36;+1,107,399.73 (+1107.40%)  |  Today: &#36;+367,800.84
 
-Cash &#36;746,960.25 | Realized &#36;+704,221.13 | Closed trades 5 | Win rate 80%
-Last update: 2026-11-04 15:22 ET. The account only changes while the US market is open.
+Cash &#36;1,175,051.63 | Realized &#36;+1,107,918.21 | Closed trades 8 | Win rate 62%
+Last update: 2026-11-05 15:35 ET. The account only changes while the US market is open.
 
 Tickers: SPY, QQQ, GLD, USO, NVDA, TSLA, AMD. Risk per trade 40%, 2 strikes OTM, 0DTE allowed, can hold overnight.
 
@@ -13,12 +13,18 @@ _Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._
 
 | Contract | Qty | Entry | Mark | P/L |
 |---|---|---|---|---|
-| TSLA 390P exp 11-06 | 100 | 4.47 | 8.04 | &#36;+35,695.22 |
-| SPY 780C exp 11-06 | 100 | 0.43 | 0.43 | &#36;-42.54 |
-| QQQ 705C exp 11-06 | 100 | 0.81 | 0.80 | &#36;-79.92 |
+| NVDA 177.5P exp 11-06 | 100 | 0.31 | 0.30 | &#36;-30.48 |
+| TSLA 335P exp 11-06 | 100 | 1.09 | 1.07 | &#36;-107.46 |
+| AMD 405P exp 11-06 | 100 | 1.87 | 1.86 | &#36;-185.54 |
 
 ## Recent trades
 
+- 11-05 15:35 BUY 100 AMD 405P exp 11-06 @ 1.87
+- 11-05 15:35 BUY 100 TSLA 335P exp 11-06 @ 1.09
+- 11-05 15:35 BUY 100 NVDA 177.5P exp 11-06 @ 0.31
+- 11-05 15:35 SELL 100 QQQ 705C @ 0.00 (stop loss) (**&#36;-8,201.95**)
+- 11-05 15:35 SELL 100 SPY 780C @ 0.00 (stop loss) (**&#36;-4,426.32**)
+- 11-05 15:35 SELL 100 TSLA 390P @ 46.12 (take profit) (**&#36;+416,325.36**)
 - 11-04 15:22 BUY 100 QQQ 705C exp 11-06 @ 0.81
 - 11-04 15:22 BUY 100 SPY 780C exp 11-06 @ 0.43
 - 11-04 15:22 SELL 100 USO 162.5C @ 0.00 (stop loss) (**&#36;-5,962.36**)
