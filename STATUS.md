@@ -1,9 +1,9 @@
 # Paper Options Trader: BASE profile
 
-**Account value: &#36;121,074.38**  |  Total P/L: &#36;+21,074.38 (+21.07%)  |  Today: &#36;-13,249.53
+**Account value: &#36;109,813.94**  |  Total P/L: &#36;+9,813.94 (+9.81%)  |  Today: &#36;-11,260.43
 
-Cash &#36;103,315.10 | Realized &#36;+21,313.07 | Closed trades 17 | Win rate 29%
-Last update: 2026-11-05 15:35 ET. The account only changes while the US market is open.
+Cash &#36;98,481.88 | Realized &#36;+9,301.35 | Closed trades 19 | Win rate 26%
+Last update: 2026-11-06 14:55 ET. The account only changes while the US market is open.
 
 Tickers: SPY, QQQ, GLD, USO. Risk per trade 5%, 0 strikes OTM, no 0DTE, closes by 15:45 ET.
 
@@ -13,12 +13,14 @@ _Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._
 
 | Contract | Qty | Entry | Mark | P/L |
 |---|---|---|---|---|
-| SPY 735P exp 11-06 | 27 | 2.22 | 2.20 | &#36;-59.45 |
-| QQQ 650P exp 11-06 | 28 | 2.14 | 2.12 | &#36;-59.45 |
-| USO 147.5C exp 11-06 | 39 | 1.52 | 1.50 | &#36;-58.69 |
+| USO 147.5C exp 11-06 | 39 | 1.52 | 1.67 | &#36;+589.99 |
+| SPY 735C exp 11-13 | 6 | 8.10 | 8.02 | &#36;-48.15 |
 
 ## Recent trades
 
+- 11-06 14:55 BUY 6 SPY 735C exp 11-13 @ 8.10
+- 11-06 14:55 SELL 28 QQQ 650P @ 0.00 (stop loss) (**&#36;-6,041.35**)
+- 11-06 14:55 SELL 27 SPY 735P @ 0.03 (stop loss) (**&#36;-5,970.37**)
 - 11-05 15:35 BUY 39 USO 147.5C exp 11-06 @ 1.52
 - 11-05 15:35 BUY 28 QQQ 650P exp 11-06 @ 2.14
 - 11-05 15:35 BUY 27 SPY 735P exp 11-06 @ 2.22
@@ -36,6 +38,3 @@ _Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._
 - 11-03 15:02 BUY 27 USO 157.5C exp 11-06 @ 2.41
 - 11-03 15:02 BUY 27 GLD 360P exp 11-06 @ 2.40
 - 11-03 15:02 BUY 16 SPY 755C exp 11-06 @ 4.09
-- 11-03 15:02 SELL 22 USO 170.0C @ 0.02 (stop loss) (**&#36;-7,522.99**)
-- 11-03 15:02 SELL 30 GLD 355P @ 0.52 (stop loss) (**&#36;-6,075.28**)
-- 11-03 15:02 SELL 9 QQQ 685P @ 5.31 (stop loss) (**&#36;-2,383.99**)
