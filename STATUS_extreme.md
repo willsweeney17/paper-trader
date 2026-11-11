@@ -1,9 +1,9 @@
 # Paper Options Trader: EXTREME profile
 
-**Account value: &#36;1,173,932.22**  |  Total P/L: &#36;+1,073,932.22 (+1073.93%)  |  Today: &#36;-924.41
+**Account value: &#36;1,408,176.67**  |  Total P/L: &#36;+1,308,176.67 (+1308.18%)  |  Today: &#36;+234,244.45
 
-Cash &#36;1,094,491.15 | Realized &#36;+1,074,856.63 | Closed trades 11 | Win rate 45%
-Last update: 2026-11-10 15:24 ET. The account only changes while the US market is open.
+Cash &#36;1,378,921.53 | Realized &#36;+1,308,664.23 | Closed trades 13 | Win rate 46%
+Last update: 2026-11-11 15:07 ET. The account only changes while the US market is open.
 
 Tickers: SPY, QQQ, GLD, USO, NVDA, TSLA, AMD. Risk per trade 40%, 2 strikes OTM, 0DTE allowed, can hold overnight.
 
@@ -13,11 +13,17 @@ _Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._
 
 | Contract | Qty | Entry | Mark | P/L |
 |---|---|---|---|---|
-| NVDA 162.5P exp 11-13 | 100 | 0.92 | 0.91 | &#36;-90.61 |
-| AMD 525C exp 11-13 | 100 | 7.11 | 7.04 | &#36;-703.80 |
+| SPY 770C exp 11-13 | 100 | 0.70 | 0.69 | &#36;-69.38 |
+| QQQ 700C exp 11-13 | 100 | 1.38 | 1.37 | &#36;-136.73 |
+| NVDA 180.0C exp 11-13 | 100 | 0.87 | 0.86 | &#36;-86.45 |
 
 ## Recent trades
 
+- 11-11 15:07 BUY 100 NVDA 180.0C exp 11-13 @ 0.87
+- 11-11 15:07 BUY 100 QQQ 700C exp 11-13 @ 1.38
+- 11-11 15:07 BUY 100 SPY 770C exp 11-13 @ 0.70
+- 11-11 15:07 SELL 100 AMD 525C @ 31.38 (take profit) (**&#36;+242,539.49**)
+- 11-11 15:07 SELL 100 NVDA 162.5P @ 0.06 (stop loss) (**&#36;-8,731.90**)
 - 11-10 15:24 BUY 100 AMD 525C exp 11-13 @ 7.11
 - 11-10 15:24 BUY 100 NVDA 162.5P exp 11-13 @ 0.92
 - 11-06 14:55 SELL 100 AMD 405P @ 0.00 (stop loss) (**&#36;-18,869.46**)
@@ -33,8 +39,3 @@ _Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._
 - 11-04 15:22 BUY 100 SPY 780C exp 11-06 @ 0.43
 - 11-04 15:22 SELL 100 USO 162.5C @ 0.00 (stop loss) (**&#36;-5,962.36**)
 - 11-04 15:22 SELL 100 SPY 765C @ 5.32 (take profit) (**&#36;+43,128.02**)
-- 11-03 15:02 BUY 100 TSLA 390P exp 11-06 @ 4.47
-- 11-03 15:02 BUY 100 USO 162.5C exp 11-06 @ 0.58
-- 11-03 15:02 BUY 100 SPY 765C exp 11-06 @ 1.00
-- 10-30 14:32 SELL 100 SPY 760P @ 8.52 (take profit) (**&#36;+81,916.91**)
-- 10-30 14:32 SELL 100 AMD 550P @ 55.40 (take profit) (**&#36;+530,633.70**)
