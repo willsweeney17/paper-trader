@@ -1,9 +1,9 @@
 # Paper Options Trader: BASE profile
 
-**Account value: &#36;114,673.79**  |  Total P/L: &#36;+14,673.79 (+14.67%)  |  Today: &#36;+7,307.00
+**Account value: &#36;134,391.06**  |  Total P/L: &#36;+34,391.06 (+34.39%)  |  Today: &#36;+19,717.27
 
-Cash &#36;98,021.91 | Realized &#36;+14,879.31 | Closed trades 22 | Win rate 32%
-Last update: 2026-11-11 15:07 ET. The account only changes while the US market is open.
+Cash &#36;121,203.60 | Realized &#36;+34,596.38 | Closed trades 25 | Win rate 32%
+Last update: 2026-11-12 15:44 ET. The account only changes while the US market is open.
 
 Tickers: SPY, QQQ, GLD, USO. Risk per trade 5%, 0 strikes OTM, no 0DTE, closes by 15:45 ET.
 
@@ -13,12 +13,16 @@ _Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._
 
 | Contract | Qty | Entry | Mark | P/L |
 |---|---|---|---|---|
-| SPY 760C exp 11-13 | 14 | 3.87 | 3.83 | &#36;-53.66 |
-| QQQ 690C exp 11-13 | 11 | 5.18 | 5.13 | &#36;-56.41 |
-| GLD 365P exp 11-13 | 35 | 1.63 | 1.61 | &#36;-56.45 |
+| GLD 355P exp 11-13 | 76 | 0.88 | 0.87 | &#36;-66.25 |
+| USO 145.0C exp 11-13 | 37 | 1.79 | 1.77 | &#36;-65.63 |
 
 ## Recent trades
 
+- 11-12 15:44 BUY 37 USO 145.0C exp 11-13 @ 1.79
+- 11-12 15:44 BUY 76 GLD 355P exp 11-13 @ 0.88
+- 11-12 15:44 SELL 35 GLD 365P @ 9.37 (take profit) (**&#36;+27,048.77**)
+- 11-12 15:44 SELL 11 QQQ 690C @ 1.81 (stop loss) (**&#36;-3,717.28**)
+- 11-12 15:44 SELL 14 SPY 760C @ 1.30 (stop loss) (**&#36;-3,614.42**)
 - 11-11 15:07 BUY 35 GLD 365P exp 11-13 @ 1.63
 - 11-11 15:07 BUY 11 QQQ 690C exp 11-13 @ 5.18
 - 11-11 15:07 BUY 14 SPY 760C exp 11-13 @ 3.87
@@ -34,8 +38,3 @@ _Real stock/ETF quotes (delayed). Option prices are modeled with Black-Scholes._
 - 11-05 15:35 BUY 27 SPY 735P exp 11-06 @ 2.22
 - 11-05 15:35 SELL 52 USO 145.0P @ 0.15 (stop loss) (**&#36;-5,947.22**)
 - 11-05 15:35 SELL 21 GLD 370C @ 5.94 (take profit) (**&#36;+5,806.62**)
-- 11-05 15:35 SELL 18 QQQ 695C @ 0.00 (stop loss) (**&#36;-6,464.54**)
-- 11-05 15:35 SELL 24 SPY 770C @ 0.00 (stop loss) (**&#36;-6,742.44**)
-- 11-04 15:22 BUY 52 USO 145.0P exp 11-06 @ 1.28
-- 11-04 15:22 BUY 21 GLD 370C exp 11-06 @ 3.16
-- 11-04 15:22 BUY 18 QQQ 695C exp 11-06 @ 3.58
