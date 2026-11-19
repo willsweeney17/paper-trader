@@ -1,9 +1,9 @@
 # Paper Options Trader: BASE profile
 
-**Account value: &#36;160,383.20**  |  Total P/L: &#36;+60,383.20 (+60.38%)  |  Today: &#36;+37,189.30
+**Account value: &#36;160,383.20**  |  Total P/L: &#36;+60,383.20 (+60.38%)  |  Today: &#36;+0.00
 
 Cash &#36;160,383.20 | Realized &#36;+60,383.20 | Closed trades 30 | Win rate 37%
-Last update: 2026-11-18 16:18 ET. The account only changes while the US market is open.
+Last update: 2026-11-19 16:21 ET. The account only changes while the US market is open.
 
 Tickers: SPY, QQQ, GLD, USO. Risk per trade 5%, 0 strikes OTM, no 0DTE, closes by 15:45 ET.
 

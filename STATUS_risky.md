@@ -3,7 +3,7 @@
 **Account value: &#36;287,198.90**  |  Total P/L: &#36;+187,198.90 (+187.20%)  |  Today: &#36;+0.00
 
 Cash &#36;287,198.90 | Realized &#36;+187,198.90 | Closed trades 23 | Win rate 26%
-Last update: 2026-11-18 16:18 ET. The account only changes while the US market is open.
+Last update: 2026-11-19 16:21 ET. The account only changes while the US market is open.
 
 Tickers: SPY, QQQ, GLD, USO, NVDA, TSLA. Risk per trade 15%, 1 strikes OTM, 0DTE allowed, closes by 15:45 ET.
 
